@@ -1,19 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'PRODUCTOS')
+@section('title', 'Inicio')
 
 
 @section('content_header')
-    <h1>VENTA DE PRODUCTOS</h1>
+    <h1>PROYECTO GESTION DE PENSIONISTAS</h1>
 @stop
 
 @section('content')
-    <p>Bienvenidos a la vista de venta de productos.</p>
+<p>Bienvenidos a restaurante Casa Blanca.</p>
 @stop
 
 @section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+<link rel="stylesheet" href="/css/custom.css"> 
+
 @stop
 
 @section('js')
