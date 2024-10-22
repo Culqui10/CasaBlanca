@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Productos</b>CIX',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Casa</b>Blanca',
+    'logo_img' => 'vendor/adminlte/dist/img/logoo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Productos',
+    'logo_img_alt' => 'Admin logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logoo.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -113,7 +113,7 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logoo.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
@@ -134,7 +134,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -301,7 +301,7 @@ return [
         ],
         [
             'type' => 'navbar-search',
-            'text' => 'search',
+            'text' => 'buscar',
             'topnav_right' => true,
         ],
         [
@@ -312,22 +312,60 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        /*
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
+            'text' => 'buscar',
         ],
         [
-            'text' => 'pages',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
-        ],*/
-        ['header' => 'PRODUCTOS'],
+            'text' => 'Inicio',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-fw fa-home',
+        ],
+        [
+            'text' => 'Consumo diario',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-utensils',
+        ],
+        [
+            'text' => 'Pensionistas',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-users',
+        ],
+        [
+            'text' => 'Pagos',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-money-check-alt', 
+        ],
+        [
+            'text' => 'Estado de cuenta',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-exclamation-triangle', 
+        ],
+        [
+            'text' => 'Historial de cuenta',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-history', 
+        ],
+        [
+            'text' => 'Generar cuenta',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-file-pdf', 
+        ],
+        ['header' => 'REGISTROS ADICIONALES'],
+        [
+            'text' => 'Tipo de comida',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-cookie-bite', 
+        ],
+        [
+            'text' => 'Menú',
+            'route' => 'admin.index',
+            'icon' => 'fas fa-hamburger', 
+        ],
+        [
+            'text' => 'Método de pago',
+            'route' => 'admin.index',
+            'icon' => 'fab fa-stripe-s', 
+        ],
+        ['header' => 'EJEMPLOS'],
         [
             'text' => 'Categorias',
             'route' => 'admin.categorias.index',
@@ -338,61 +376,34 @@ return [
             'route' => 'admin.productos.index',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        /*
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],*/
+        // [
+        //     'text' => 'Registrar',
+        //     'icon' => 'fas fa-plus-circle',
+        //     'submenu' => [
+        //         [
+        //             'text' => 'Tipo de comida',
+        //             'route' => '',
+        //             'icon' => 'fas fa-cookie-bite', 
+        //         ],
+        //         [
+        //             'text' => 'Menú',
+        //             'route' => '',
+        //             'icon' => 'fas fa-hamburger', 
+        //         ],
+        //         [
+        //             'text' => 'Método de pago',
+        //             'route' => 'admin.payment_methods.index',
+        //             'icon' => 'fab fa-stripe-s', 
+        //         ],
+                
+        //     ],
+        // ],
+        // [
+        //     'text' => 'important',
+        //     'icon_color' => 'red',
+        //     'url' => '#',
+        // ],
+        
     ],
 
     /*
@@ -435,23 +446,23 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
