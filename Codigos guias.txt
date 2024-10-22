@@ -1,0 +1,76 @@
+
+composer create-project laravel/laravel example-app
+composer create-project laravel/laravel="^10.0" nombre-proyecto
+
+
+cd example-app
+
+composer require laravel/jetstream
+
+php artisan jetstream:install livewire
+
+npm install
+npm run build
+
+composer require jeroennoten/laravel-adminlte
+
+php artisan adminlte:install
+
+Cuando hay errores con el form ejecutar:::
+----------------------------------
+composer dump-autoload -o
+composer require laravelcollective/html
+composer dump-autoocomposer dump-auto -o
+php artisan cache:clear
+php artisan config:clear
+----------------------------------------------
+php artisan make:migration create_brands_table
+
+php artisan migrate
+
+php artisan make:controller Admin/BrandsController -r
+php artisan make:model Brand
+
+Ver rutas::::: php artisan route:list --name=admin.brands
+
+Error: class form not foud: 
+composer require laravelcollective/html
+
+validaciones
+https://sweetalert2.github.io/
+
+php artisan make:seeder VehicletypeSeeder
+
+php artisan migrate:fresh --seed
+
+php artisan laravels-install-lang
+
+npm run dev
+
+-----------------------------------
+GIT HUB
+
+git init
+git remote add origin <URL_DEL_REPOSITORIO>
+git add .
+git commit -m "Primer commit"
+git push -u origin main
+
+CLONAR
+git clone <URL_DEL_REPOSITORIO>
+cd CARPETA
+cambios
+git add .
+git commit -m ""
+git push -u origin main 
+
+ERRORES
+error: src refspec main does not match:: NO HAY RAMAS, CREAR RAMAS
+git branch
+git checkout -b main
+
+Repositrio remoto no tiene cambios que no tiene local
+git pull origin main --rebase
+git pull origin main
+
+git rebase --continue
