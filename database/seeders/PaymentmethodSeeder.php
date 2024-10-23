@@ -15,16 +15,17 @@ class PaymentmethodSeeder extends Seeder
     {
         $p1 = new Paymentmethod();
         $p1->name='Yape';
+        $p1->description='Número de yape';
         $p1->save();
 
         $p2 = new Paymentmethod();
-        $p2->name='BN';
-        $p2->description='Banco de la nación';
+        $p2->name='Banco de la nación';
+        $p2->description='04-029029';
         $p2->save();
 
         $p3 = new Paymentmethod();
-        $p3->name='BCP';
-        $p3->description='Banco de crédito del Perú';
+        $p3->name='Banco de crédito del Perú';
+        $p3->description='040005655123';
         $p3->save();
 
         $p4 = new Paymentmethod();
