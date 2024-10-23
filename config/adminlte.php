@@ -352,12 +352,12 @@ return [
         ['header' => 'REGISTROS ADICIONALES'],
         [
             'text' => 'Tipo de comida',
-            'route' => 'admin.index',
+            'route' => 'admin.typefoods.index',
             'icon' => 'fas fa-cookie-bite', 
         ],
         [
             'text' => 'Menú',
-            'route' => 'admin.index',
+            'route' => 'admin.menus.index',
             'icon' => 'fas fa-hamburger', 
         ],
         [
