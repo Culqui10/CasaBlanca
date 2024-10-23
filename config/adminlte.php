@@ -326,7 +326,7 @@ return [
         ],
         [
             'text' => 'Pensionistas',
-            'route' => 'admin.index',
+            'route' => 'admin.pensioners.index',
             'icon' => 'fas fa-users',
         ],
         [

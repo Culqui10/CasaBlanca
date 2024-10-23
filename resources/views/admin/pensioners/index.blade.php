@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Metodo Pago')
+@section('title', 'Pensionista')
 
 
 @section('content')
@@ -8,36 +8,40 @@
     <div class="card">
         <div class="card-header">
             <button class="btn btn-success float-right" id="btnNuevo"><i class="fas fa-plus-circle"></i> Registrar</button>
-            <h4>Listado de menús</h4>
+            <h4>Listado de pensionistas</h4>
         </div>
         <div class="card-body">
             <table class="table" id="datatable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>NOMBRE</th>
-                        <th>PRECIO S/.</th>
-                        <th>TIPO DE COMIDA</th>
-                        <th>DESCRIPCIÓN</th>
+                        <th>NOMBRES</th>
+                        <th>TELÉFONO</th>
+                        <th>PROCEDENCIA</th>
+                        <th>REPRESENTANTE</th>
+                        <th>TEL. REPRESENTANTE</th>
+                        <th>FECHA</th>
                         <th width=20></th>
                         <th width=20></th>
                     </tr>
 
                 </thead>
                 <tbody>
-                    @foreach ($menus as $menu)
+                    @foreach ($pensioners as $pens)
                         <tr>
-                            <td>{{ $menu->id }}</td>
-                            <td>{{ $menu->name }}</td>
-                            <td>{{ $menu->price}}</td>
-                            <td>{{ $menu->tfood}}</td>
-                            <td>{{ $menu->description }}</td>
+                            <td>{{ $pens->id }}</td>
+                            <td>{{ $pens->names }}</td>
+                            <td>{{ $pens->phone}}</td>
+                            <td>{{ $pens->location}}</td>
+                            <td>{{ $pens->name_representative}}</td>
+                            <td>{{ $pens->phone_representative}}</td>
+                            <td>{{ $pens->date }}</td>
                             <td>
-                                <button class="btnEditar btn btn-primary" id="{{ $menu->id }}"><i
+                                <button class="btnEditar btn btn-primary" id="{{ $pens->id }}"><i
                                         class="fa fa-edit"></i></button>
                             </td>
                             <td>
-                                <form action="{{ route('admin.menus.destroy', $menu->id) }}" method="POST"
+                                <form action="{{ route('admin.pensioners.destroy', $pens->id) }}" method="POST"
                                     class="fmrEliminar">
                                     @csrf
                                     @method('delete')
@@ -58,13 +62,12 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Formulario de Menú</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Formulario de Pensionista</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -89,7 +92,7 @@
 
         $('#btnNuevo').click(function() {
             $.ajax({
-                url: "{{ route('admin.menus.create') }}",
+                url: "{{ route('admin.pensioners.create') }}",
                 type: "GET",
                 success: function(response) {
                     $('#formModal .modal-body').html(response);
@@ -101,7 +104,7 @@
         $(".btnEditar").click(function() {
             var id = $(this).attr('id');
             $.ajax({
-                url: "{{ route('admin.menus.edit', '_id') }}".replace('_id', id),
+                url: "{{ route('admin.pensioners.edit', '_id') }}".replace('_id', id),
                 type: "GET",
                 success: function(response) {
                     $('#formModal .modal-body').html(response);
