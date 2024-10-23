@@ -362,20 +362,20 @@ return [
         ],
         [
             'text' => 'Método de pago',
-            'route' => 'admin.index',
+            'route' => 'admin.paymentmethods.index',
             'icon' => 'fab fa-stripe-s', 
         ],
-        ['header' => 'EJEMPLOS'],
-        [
-            'text' => 'Categorias',
-            'route' => 'admin.categorias.index',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'Productos',
-            'route' => 'admin.productos.index',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+        // ['header' => 'EJEMPLOS'],
+        // [
+        //     'text' => 'Categorias',
+        //     'route' => 'admin.categorias.index',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
+        // [
+        //     'text' => 'Productos',
+        //     'route' => 'admin.productos.index',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
         // [
         //     'text' => 'Registrar',
         //     'icon' => 'fas fa-plus-circle',
