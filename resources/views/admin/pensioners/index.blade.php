@@ -31,10 +31,10 @@
                         <tr>
                             <td>{{ $pens->id }}</td>
                             <td>{{ $pens->names }}</td>
-                            <td>{{ $pens->phone}}</td>
-                            <td>{{ $pens->location}}</td>
-                            <td>{{ $pens->name_representative}}</td>
-                            <td>{{ $pens->phone_representative}}</td>
+                            <td>{{ $pens->phone }}</td>
+                            <td>{{ $pens->location }}</td>
+                            <td>{{ $pens->name_representative }}</td>
+                            <td>{{ $pens->phone_representative }}</td>
                             <td>{{ $pens->date }}</td>
                             <td>
                                 <button class="btnEditar btn btn-primary" id="{{ $pens->id }}"><i
@@ -101,6 +101,7 @@
             })
 
         })
+        
         $(".btnEditar").click(function() {
             var id = $(this).attr('id');
             $.ajax({
@@ -115,27 +116,26 @@
         });
 
         $(".fmrEliminar").submit(function(e) {
-                e.preventDefault();
-                    Swal.fire({
-                    title: "Seguro de eliminar?",
-                    text: "Esta accion es irreversible!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar!"
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                        /*Swal.fire({
-                        title: "Marca eliminada!",
-                        text: "Porceso exitoso.",
-                        icon: "Satisfactorio"
-                        });*/
-                    }
-                    });
+            e.preventDefault();
+            Swal.fire({
+                title: "Seguro de eliminar?",
+                text: "Esta accion es irreversible!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                    /*Swal.fire({
+                    title: "Marca eliminada!",
+                    text: "Porceso exitoso.",
+                    icon: "Satisfactorio"
+                    });*/
+                }
+            });
         });
-        
     </script>
 
 

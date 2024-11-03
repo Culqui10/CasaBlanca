@@ -12,6 +12,7 @@ class Pensioner extends Model
     protected $table = 'pensioners';
 
     protected $guarded=[];
+    
 
     protected $casts = [
         'date' => 'date:Y-m-d',

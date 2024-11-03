@@ -15,6 +15,7 @@ class PensionersController extends Controller
     public function index()
     {
         $pensioners = DB::select("
+
         SELECT
         pensioners.id,
         CONCAT(pensioners.name, ' ', pensioners.lastname) AS names,
@@ -25,6 +26,7 @@ class PensionersController extends Controller
         pensioners.date
         FROM pensioners
         ");
+        
         return view('admin.pensioners.index', compact('pensioners'));
     }
 
@@ -35,7 +37,6 @@ class PensionersController extends Controller
     {
         // Obtener la fecha actual usando Carbon
         //$currentDate = \Carbon\Carbon::now()->format('Y-m-d');
-
         return view('admin.pensioners.create');
     }
 
