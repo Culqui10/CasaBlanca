@@ -379,17 +379,7 @@ return [
         // [
         //     'text' => 'Registrar',
         //     'icon' => 'fas fa-plus-circle',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'Tipo de comida',
-        //             'route' => '',
-        //             'icon' => 'fas fa-cookie-bite', 
-        //         ],
-        //         [
-        //             'text' => 'Menú',
-        //             'route' => '',
-        //             'icon' => 'fas fa-hamburger', 
-        //         ],
+        //     'submenu' => [   
         //         [
         //             'text' => 'Método de pago',
         //             'route' => 'admin.payment_methods.index',
