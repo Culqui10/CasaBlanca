@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoriasController;
 use App\Http\Controllers\Admin\FotosController;
 use App\Http\Controllers\Admin\MenusController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
+use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\PensionersController;
 use App\Http\Controllers\Admin\ProductosController;
 use App\Http\Controllers\Admin\TypeFoodsController;
@@ -20,5 +21,6 @@ Route::resource('/paymentmethod',  PaymentMethodsController::class)->names('admi
 Route::resource('/typefood', TypeFoodsController::class)->names('admin.typefoods');
 Route::resource('/menu', MenusController::class)->names('admin.menus');
 Route::resource('/pensioner', PensionersController::class)->names('admin.pensioners');
+Route::resource('/payment', PaymentsController::class)->names('admin.payments');
 
 ?>

@@ -331,7 +331,7 @@ return [
         ],
         [
             'text' => 'Pagos',
-            'route' => 'admin.index',
+            'route' => 'admin.payments.index',
             'icon' => 'fas fa-money-check-alt', 
         ],
         [
