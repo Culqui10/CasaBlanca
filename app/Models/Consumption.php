@@ -13,3 +13,4 @@ class Consumption extends Model
 
     protected $guarded=[];
 }
+

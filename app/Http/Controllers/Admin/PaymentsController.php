@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Models\Paymentmethod;
+use App\Models\Pensioner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,29 +16,17 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        // $payments = DB::select("
-        // SELECT
-        //     payments.id,
-        //     CONCAT(pen.name, ' ', pen.lastname) AS names,
-        //     payments.date,
-        //     mp.name AS mpaym,
-        //     payments.total,
-        //     payments.description
-        // FROM payments
-        // JOIN pensioners AS pen ON payments.pensioner_id = pen.id
-        // JOIN paymentmethods AS mp ON payments.paymentmethod_id = mp.id
-        // ");
         $payments = Payment::select(
             'payments.id',
-             DB::raw("CONCAT(pen.name, ' ', pen.lastname) as names"), // nombre y apellido
+            DB::raw("CONCAT(pen.name, ' ', pen.lastname) as names"), // nombre y apellido
             'payments.date',
             'mp.name as mpaym',
             'payments.total',
             'payments.description'
         )
-        ->join('pensioners as pen','payments.pensioner_id','=','pen.id')
-        ->join('paymentmethods as mp','payments.paymentmethod_id','=','mp.id')
-        ->get();
+            ->join('pensioners as pen', 'payments.pensioner_id', '=', 'pen.id')
+            ->join('paymentmethods as mp', 'payments.paymentmethod_id', '=', 'mp.id')
+            ->get();
         return  view('admin.payments.index', compact('payments'));
     }
 
@@ -45,7 +35,8 @@ class PaymentsController extends Controller
      */
     public function create()
     {
-        //
+        $methodpayment = Paymentmethod::pluck('name', 'id');
+        return view('admin.payments.create', compact('methodpayment'));
     }
 
     /**
@@ -87,4 +78,5 @@ class PaymentsController extends Controller
     {
         //
     }
+   
 }

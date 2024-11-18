@@ -22,5 +22,7 @@ Route::resource('/typefood', TypeFoodsController::class)->names('admin.typefoods
 Route::resource('/menu', MenusController::class)->names('admin.menus');
 Route::resource('/pensioner', PensionersController::class)->names('admin.pensioners');
 Route::resource('/payment', PaymentsController::class)->names('admin.payments');
+Route::get('/pensioners/search', [PensionersController::class, 'search'])->name('pensioners.search');
+
 
 ?>
