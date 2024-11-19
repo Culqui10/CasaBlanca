@@ -43,10 +43,9 @@
 <div class="form-group row">
     <div class="col-md-6">
         {!! Form::label('name_representative', 'Representante') !!}
-        {!! Form::text('name_representative', null, 
+        {!! Form::text('name_representative', 'Ninguno', 
         ['class'=>'form-control', 
         'placeholder'=>'Ingrese nombre',
-        'required',
         ]) !!}
     </div>
 
@@ -55,7 +54,6 @@
         {!! Form::tel('phone_representative', null, [
             'class' => 'form-control', 
             'placeholder' => 'Ingrese teléfono',
-            'required',
             'pattern' => '[0-9]{9,15}', // números con longitud mínima y máxima
             'title' => 'Ingrese solo números (mínimo 9 y máximo 15 dígitos)',
         ]) !!}

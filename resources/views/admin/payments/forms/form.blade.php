@@ -38,7 +38,7 @@
     </div>
 
     <div class="col.md-6">
-        {!! Form::label('price', 'Saldo') !!}
+        {!! Form::label('price', 'Monto de pago S/.') !!}
         {!! Form::number('price', null, [
             'class' => 'form-control', 
             'placeholder' => 'Ingrese el precio',

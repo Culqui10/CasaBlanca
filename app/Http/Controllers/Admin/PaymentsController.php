@@ -24,10 +24,12 @@ class PaymentsController extends Controller
             'payments.date',
             'mp.name as mpaym',
             'payments.total',
+            'ast.current_balance as saldo',
             'payments.description'
         )
             ->join('pensioners as pen', 'payments.pensioner_id', '=', 'pen.id')
             ->join('paymentmethods as mp', 'payments.paymentmethod_id', '=', 'mp.id')
+            ->join('accountstatus as ast', 'payments.id', '=', 'ast.payment_id')
             ->get();
         return  view('admin.payments.index', compact('payments'));
     }
@@ -85,15 +87,11 @@ class PaymentsController extends Controller
         } else {
             $accountstatus->status = 'todos';
         }
-
         // Guardar los cambios
         $accountstatus->save();
 
-        // Redirigir con un mensaje de éxito
         return redirect()->route('admin.payments.index')->with('success', 'Pago registrado correctamente y saldo actualizado.');
     }
-
-
 
     /**
      * Display the specified resource.

@@ -51,8 +51,8 @@ class PensionersController extends Controller
             'lastname' => 'required|string|max:255',
             'phone' => 'required|regex:/^[0-9]{9,15}$/',
             'location' => 'required|string|max:255',
-            'name_representative' => 'required|string|max:255',
-            'phone_representative' => 'required|regex:/^[0-9]{9,15}$/',
+            'name_representative' => 'nullable|string|max:255',
+            'phone_representative' => 'nullable|regex:/^[0-9]{9,15}$/',
             'date' => 'required|date',
         ]);
         Pensioner::create($validatedData);
