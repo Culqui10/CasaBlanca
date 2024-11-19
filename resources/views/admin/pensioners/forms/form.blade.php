@@ -51,8 +51,8 @@
     </div>
 
     <div class="col-md-6">
-        {!! Form::label('phone', 'Teléfono') !!}
-        {!! Form::tel('phone', null, [
+        {!! Form::label('phone_representative', 'Teléfono') !!}
+        {!! Form::tel('phone_representative', null, [
             'class' => 'form-control', 
             'placeholder' => 'Ingrese teléfono',
             'required',

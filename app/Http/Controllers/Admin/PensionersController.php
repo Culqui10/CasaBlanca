@@ -46,7 +46,17 @@ class PensionersController extends Controller
      */
     public function store(Request $request)
     {
-        Pensioner::create($request->all());
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phone' => 'required|regex:/^[0-9]{9,15}$/',
+            'location' => 'required|string|max:255',
+            'name_representative' => 'required|string|max:255',
+            'phone_representative' => 'required|regex:/^[0-9]{9,15}$/',
+            'date' => 'required|date',
+        ]);
+        Pensioner::create($validatedData);
+        //Pensioner::create($request->all());
         return redirect()->route('admin.pensioners.index')->with('success', 'Pensionista registrado correctamente');
     }
 

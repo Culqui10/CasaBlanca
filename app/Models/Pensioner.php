@@ -11,11 +11,15 @@ class Pensioner extends Model
     // Especificar el nombre de la tabla -> Evitar que Laravel no use las convenciones predeterminadas
     protected $table = 'pensioners';
 
-    protected $guarded=[];
-    
+    protected $guarded = [];
+
 
     protected $casts = [
         'date' => 'date:Y-m-d',
     ];
-    
+
+    public function accountStatus()
+    {
+        return $this->hasOne(Accountstatus::class);
+    }
 }

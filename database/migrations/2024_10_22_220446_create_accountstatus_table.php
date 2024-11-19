@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('accountstatus', function (Blueprint $table) {
             $table->id();
             $table->double('current_balance');
-            $table->string('status');
+            $table->string('status')->default('todos'); // Asigna un valor por defecto
             $table->timestamps();
             $table->unsignedBigInteger('payment_id');
             $table->unsignedBigInteger('pensioner_id');
-            $table->unsignedBigInteger('consumption_id');
+            $table->unsignedBigInteger('consumption_id')->nullable();
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->foreign('pensioner_id')->references('id')->on('pensioners');
             $table->foreign('consumption_id')->references('id')->on('consumptions');
+
         });
     }
 

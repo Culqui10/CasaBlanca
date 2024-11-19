@@ -24,5 +24,4 @@ Route::resource('/pensioner', PensionersController::class)->names('admin.pension
 Route::resource('/payment', PaymentsController::class)->names('admin.payments');
 Route::get('/pensioners/search', [PensionersController::class, 'search'])->name('pensioners.search');
 
-
 ?>

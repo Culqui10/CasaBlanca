@@ -11,5 +11,9 @@ class Payment extends Model
     // Especificar el nombre de la tabla -> Evitar que Laravel no use las convenciones predeterminadas
     protected $table = 'payments';
 
-    protected $guarded=[];
+    protected $guarded = [];
+    public function pensioner()
+    {
+        return $this->belongsTo(Pensioner::class);
+    }
 }

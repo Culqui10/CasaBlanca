@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accountstatus;
 use App\Models\Payment;
 use App\Models\Paymentmethod;
 use App\Models\Pensioner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
 {
@@ -44,8 +46,54 @@ class PaymentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar los datos del formulario
+        $request->validate([
+            'pensioner_id' => 'required|exists:pensioners,id',
+            'paymentmethod_id' => 'required|exists:paymentmethods,id',
+            'price' => 'required|numeric|min:0',
+            'date' => 'required|date',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        // Crear el pago
+        $payment = Payment::create([
+            'pensioner_id' => $request->pensioner_id,
+            'paymentmethod_id' => $request->paymentmethod_id,
+            'total' => $request->price,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
+
+        // Crear o actualizar el estado de cuenta
+        $accountstatus = Accountstatus::firstOrCreate(
+            ['pensioner_id' => $request->pensioner_id], // Buscar por pensioner_id
+            [
+                'current_balance' => 0, // Saldo inicial
+                'payment_id' => $payment->id, // Relacionar con el pago recién creado
+                'status' => 'todos', // Estado inicial
+            ]
+        );
+
+        // Actualizar el saldo
+        $accountstatus->current_balance += $request->price;
+
+        // Actualizar el estado según el saldo actual
+        if ($accountstatus->current_balance < 0) {
+            $accountstatus->status = 'pendiente';
+        } elseif ($accountstatus->current_balance <= 20) {
+            $accountstatus->status = 'agotándose';
+        } else {
+            $accountstatus->status = 'todos';
+        }
+
+        // Guardar los cambios
+        $accountstatus->save();
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('admin.payments.index')->with('success', 'Pago registrado correctamente y saldo actualizado.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -78,5 +126,4 @@ class PaymentsController extends Controller
     {
         //
     }
-   
 }

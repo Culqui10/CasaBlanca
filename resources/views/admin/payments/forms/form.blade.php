@@ -25,6 +25,7 @@
             'readonly'
         ]) !!}
     </div>
+    {!! Form::hidden('pensioner_id', null, ['id' => 'pensioner_id']) !!}
 </div>
 
 <div class="form-group row">
@@ -76,24 +77,27 @@
     }
 
     fetch(`/admin/pensioners/search?query=${query}`)
-
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            document.getElementById('pensionista_name').value = data.data.name;
-        } else {
-            alert(data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error al buscar el pensionista. Revisa la consola para más detalles.');
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                // Actualiza el campo de ID del pensionista
+                document.getElementById('pensioner_id').value = data.data.id;
+                // Actualiza el nombre del pensionista en un campo de solo lectura
+                document.getElementById('pensionista_name').value = data.data.name;
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            alert('Error al buscar el pensionista. Revisa la consola para más detalles.');
+        });
 });
+
 
 </script>
