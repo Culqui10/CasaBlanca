@@ -16,23 +16,42 @@ class PaymentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $payments = Payment::select(
-            'payments.id',
-            DB::raw("CONCAT(pen.name, ' ', pen.lastname) as names"), // nombre y apellido
-            DB::raw("DATE_FORMAT(payments.date, '%Y-%m-%d') as formatted_date"),
-            'mp.name as mpaym',
-            'payments.total',
-            'ast.current_balance as saldo',
-            'payments.description'
-        )
-            ->join('pensioners as pen', 'payments.pensioner_id', '=', 'pen.id')
-            ->join('paymentmethods as mp', 'payments.paymentmethod_id', '=', 'mp.id')
-            ->join('accountstatus as ast', 'payments.id', '=', 'ast.payment_id')
-            ->get();
-        return  view('admin.payments.index', compact('payments'));
+    public function index() 
+{
+    // Obtener los pagos ordenados por fecha e ID
+    $payments = Payment::select(
+        'payments.id',
+        DB::raw("CONCAT(pen.name, ' ', pen.lastname) as names"), // nombre y apellido
+        DB::raw("DATE_FORMAT(payments.date, '%Y-%m-%d') as formatted_date"),
+        'mp.name as mpaym',
+        'payments.total',
+        'payments.description',
+        'payments.pensioner_id'
+    )
+        ->join('pensioners as pen', 'payments.pensioner_id', '=', 'pen.id')
+        ->join('paymentmethods as mp', 'payments.paymentmethod_id', '=', 'mp.id')
+        ->orderBy('payments.pensioner_id') // Ordenar por pensionista
+        ->orderBy('payments.date') // Ordenar por fecha
+        ->orderBy('payments.id') // Asegurar el orden
+        ->get();
+
+    // Calcular el saldo acumulativo para cada registro
+    $saldoPorPensionista = []; // Array para rastrear el saldo de cada pensionista
+    foreach ($payments as $payment) {
+        // Inicializar saldo para cada nuevo pensionista
+        if (!isset($saldoPorPensionista[$payment->pensioner_id])) {
+            $saldoPorPensionista[$payment->pensioner_id] = 0;
+        }
+
+        // Sumar el monto del pago al saldo acumulativo del pensionista
+        $saldoPorPensionista[$payment->pensioner_id] += $payment->total;
+
+        // Asignar el saldo acumulado al registro actual
+        $payment->saldo_acumulado = $saldoPorPensionista[$payment->pensioner_id];
     }
+
+    return view('admin.payments.index', compact('payments'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -85,7 +104,7 @@ class PaymentsController extends Controller
         } elseif ($accountstatus->current_balance <= 20) {
             $accountstatus->status = 'agotándose';
         } else {
-            $accountstatus->status = 'todos';
+            $accountstatus->status = 'suficiente';
         }
         // Guardar los cambios
         $accountstatus->save();
@@ -151,7 +170,7 @@ class PaymentsController extends Controller
         } elseif ($accountstatus->current_balance <= 20) {
             $accountstatus->status = 'agotándose';
         } else {
-            $accountstatus->status = 'todos';
+            $accountstatus->status = 'suficiente';
         }
 
         // Guardar cambios
@@ -178,7 +197,7 @@ class PaymentsController extends Controller
         } elseif ($accountstatus->current_balance <= 20) {
             $accountstatus->status = 'agotándose';
         } else {
-            $accountstatus->status = 'activo';
+            $accountstatus->status = 'suficiente';
         }
 
         // Guardar cambios en el estado de cuenta

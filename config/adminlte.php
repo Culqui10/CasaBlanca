@@ -336,7 +336,7 @@ return [
         ],
         [
             'text' => 'Estado de cuenta',
-            'route' => 'admin.index',
+            'route' => 'admin.accountstatus.index',
             'icon' => 'fas fa-exclamation-triangle', 
         ],
         [
@@ -351,14 +351,14 @@ return [
         ],
         ['header' => 'REGISTROS ADICIONALES'],
         [
-            'text' => 'Tipo de comida',
-            'route' => 'admin.typefoods.index',
-            'icon' => 'fas fa-cookie-bite', 
-        ],
-        [
             'text' => 'Menú',
             'route' => 'admin.menus.index',
             'icon' => 'fas fa-hamburger', 
+        ],
+        [
+            'text' => 'Tipo de comida',
+            'route' => 'admin.typefoods.index',
+            'icon' => 'fas fa-cookie-bite', 
         ],
         [
             'text' => 'Método de pago',

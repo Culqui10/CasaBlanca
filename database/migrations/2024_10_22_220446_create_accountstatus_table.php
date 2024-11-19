@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accountstatus', function (Blueprint $table) {
             $table->id();
             $table->double('current_balance');
-            $table->string('status')->default('todos'); // Asigna un valor por defecto
+            $table->string('status'); // Asigna un valor por defecto
             $table->timestamps();
             $table->unsignedBigInteger('payment_id');
             $table->unsignedBigInteger('pensioner_id');

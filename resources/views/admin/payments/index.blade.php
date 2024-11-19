@@ -34,7 +34,7 @@
                             <td>{{ $paym->formatted_date }}</td>
                             <td>{{ $paym->mpaym}}</td>
                             <td>{{ $paym->total }}</td>
-                            <td>{{ $paym->saldo }}</td>
+                            <td>{{ $paym->saldo_acumulado }}</td>
                             <td>{{ $paym->description }}</td>
                             <td>
                                 <button class="btnEditar btn btn-primary" id="{{ $paym->id }}"><i

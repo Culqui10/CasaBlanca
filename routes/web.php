@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountStatusController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriasController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
@@ -40,5 +41,6 @@ Route::resource('/', ProductosController::class)->names('admin.productos');
 Route::get('categoriabyfamilia/{id}', [ProductosController::class, 'categoriabyfamilia'])->name('admin.categoriabyfamilia');
 Route::resource('/paymentmethod',  PaymentMethodsController::class)->names('admin.paymentmethods');
 //Route::post('/payments/store', [PaymentsController::class, 'store'])->name('admin.payments.store');
+//Route::resource('/accountstatus', AccountStatusController::class)->names('admin.accountstatus');
 
 
