@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ $paym->id }}</td>
                             <td>{{ $paym->names }}</td>
-                            <td>{{ $paym->date}}</td>
+                            <td>{{ $paym->formatted_date }}</td>
                             <td>{{ $paym->mpaym}}</td>
                             <td>{{ $paym->total }}</td>
                             <td>{{ $paym->saldo }}</td>

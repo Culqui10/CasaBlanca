@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use App\Models\Paymentmethod;
 use Illuminate\Http\Request;
 
@@ -37,10 +38,7 @@ class PaymentMethodsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -68,7 +66,12 @@ class PaymentMethodsController extends Controller
     {
         //dd($id);
         $paymeth  = Paymentmethod::find($id);
-        $paymeth->delete();
-        return redirect()->route('admin.paymentmethods.index')->with('success', 'Eliminado correctamente');
+        $payment = Payment::where('paymentmethod_id', $id)->count();
+        if ($payment > 0) {
+            return redirect()->route('admin.paymentmethods.index')->with('error', 'Está asignado a un pago');
+        } else {
+            $paymeth->delete();
+            return redirect()->route('admin.paymentmethods.index')->with('success', 'Eliminado correctamente');
+        }
     }
 }
