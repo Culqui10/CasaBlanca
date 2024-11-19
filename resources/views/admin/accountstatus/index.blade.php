@@ -19,7 +19,7 @@
                     <a href="{{ route('admin.accountstatus.index', ['status' => 'pendiente']) }}" class="btn btn-danger">
                         <i class="fas fa-exclamation"></i> Pendiente</a>
                     <a href="{{ route('admin.accountstatus.index', ['status' => 'agotándose']) }}" class="btn btn-warning">
-                        <i class="fas fa-exclamation-triangle"></i>  Agotándose</a>
+                        <i class="fas fa-exclamation-triangle"></i> Agotándose</a>
                 </div>
             </div>
 
@@ -41,10 +41,10 @@
                             <td>{{ $accstatus->id }}</td>
                             <td>{{ $accstatus->names }}</td>
                             <td>{{ $accstatus->formatted_date }}</td>
-                            <td>{{ $accstatus->metodo}}</td>
+                            <td>{{ $accstatus->metodo }}</td>
                             <td>{{ $accstatus->saldo }}</td>
                             <td>{{ $accstatus->status }}</td>
-                            
+
                         </tr>
                     @endforeach
                 </tbody>
