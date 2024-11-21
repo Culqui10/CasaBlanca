@@ -21,7 +21,7 @@ class MenusController extends Controller
             'menus.price',
             'tf.name as tfood',
             'menus.description'
-            )
+        )
             ->join('typefoods as tf', 'menus.typefood_id', '=', 'tf.id')->get();
         return view('admin.menus.index', compact('menus'));
     }
@@ -56,7 +56,7 @@ class MenusController extends Controller
     public function edit(string $id)
     {
         $menus = Menu::find($id);
-        $typefood = Typefood::pluck('name','id');
+        $typefood = Typefood::pluck('name', 'id');
         return  view('admin.menus.edit', compact('menus', 'typefood'));
     }
 
@@ -78,5 +78,36 @@ class MenusController extends Controller
         $menus  = Menu::find($id);
         $menus->delete();
         return  redirect()->route('admin.menus.index')->with('success', 'Menu eliminado');
+    }
+
+    public function filterMenus(Request $request)
+    {
+        $typefood = $request->get('typefood');
+
+        $menus = Menu::whereHas('typefood', function ($query) use ($typefood) {
+            $query->where('name', $typefood);
+        })->get();
+
+        return response()->json([
+            'success' => true,
+            'menus' => $menus
+        ]);
+    }
+
+    public function getMenuPrice($menuId)
+    {
+        $menu = Menu::find($menuId);
+
+        if ($menu) {
+            return response()->json([
+                'success' => true,
+                'price' => $menu->price,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Menú no encontrado.',
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accountstatu;
 use App\Models\Accountstatus;
 use App\Models\Consumption;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -49,7 +50,8 @@ class ConsumptionsController extends Controller
                     WHERE cd.consumption_id = consumptions.id AND tf.name = 'cena'
                 ) THEN 'Sí' 
                 ELSE 'No' 
-            END as cena") // Verifica si tiene cena
+            END as cena"), // Verifica si tiene cena
+            'consumptions.total'
         )
         ->join('pensioners as pen', 'consumptions.pensioner_id', '=', 'pen.id') // Une con la tabla pensioners
         ->get();
@@ -62,7 +64,8 @@ class ConsumptionsController extends Controller
      */
     public function create()
     {
-        //
+        $menu = Menu::pluck('name','id');
+        return view('admin.consumptions.create', compact('menu'));
     }
 
     /**

@@ -10,7 +10,9 @@ class Consumption extends Model
     use HasFactory;
     // Especificar el nombre de la tabla -> Evitar que Laravel no use las convenciones predeterminadas
     protected $table = 'consumptions';
-
+    protected $casts = [
+        'date' => 'date:Y-m-d',
+    ];
     protected $guarded=[];
 }
 

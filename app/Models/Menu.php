@@ -12,4 +12,10 @@ class Menu extends Model
     protected $table = 'menus';
 
     protected $guarded=[];
+    
+    public function typefood()
+{
+    return $this->belongsTo(Typefood::class, 'typefood_id');
+}
+
 }

@@ -20,6 +20,7 @@
                         <th>DESAYUNO</th>
                         <th>ALMUERZO</th>
                         <th>CENA</th>
+                        <th>TOTAL S/.</th>
                         <th width=20></th>
                         <th width=20></th>
                     </tr>
@@ -34,6 +35,7 @@
                             <td>{{ $cons->desayuno }}</td>
                             <td>{{ $cons->almuerzo }}</td>
                             <td>{{ $cons->cena }}</td>
+                            <td>{{ $cons->total }}</td>
                             <td>
                                 <button class="btnEditar btn btn-primary" id="{{ $cons->id }}"><i
                                         class="fa fa-edit"></i></button>

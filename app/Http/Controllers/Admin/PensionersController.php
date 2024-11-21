@@ -27,7 +27,7 @@ class PensionersController extends Controller
         pensioners.date
         FROM pensioners
         ");
-        
+
         return view('admin.pensioners.index', compact('pensioners'));
     }
 
@@ -97,29 +97,28 @@ class PensionersController extends Controller
         $pens->delete();
         return redirect()->route('admin.pensioners.index')->with('success', 'Pensionista eliminado');
     }
-    
+
     public function search(Request $request)
-{
-    Log::info('Search Query:', ['query' => $request->input('query')]);
+    {
+        Log::info('Search Query:', ['query' => $request->input('query')]);
 
-    $query = $request->input('query');
-    $pensioner = Pensioner::where('name', 'LIKE', "%$query%")
-        ->orWhere('lastname', 'LIKE', "%$query%")
-        ->first();
+        $query = $request->input('query');
+        $pensioner = Pensioner::where('name', 'LIKE', "%$query%")
+            ->orWhere('lastname', 'LIKE', "%$query%")
+            ->first();
 
-    if ($pensioner) {
-        Log::info('Pensionista encontrado:', ['pensioner' => $pensioner]);
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'id' => $pensioner->id,
-                'name' => $pensioner->name . ' ' . $pensioner->lastname
-            ]
-        ]);
-    } else {
-        Log::warning('Pensionista no encontrado.', ['query' => $query]);
-        return response()->json(['success' => false, 'message' => 'Pensionista no encontrado']);
+        if ($pensioner) {
+            Log::info('Pensionista encontrado:', ['pensioner' => $pensioner]);
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $pensioner->id,
+                    'name' => $pensioner->name . ' ' . $pensioner->lastname
+                ]
+            ]);
+        } else {
+            Log::warning('Pensionista no encontrado.', ['query' => $query]);
+            return response()->json(['success' => false, 'message' => 'Pensionista no encontrado']);
+        }
     }
-}
-
 }

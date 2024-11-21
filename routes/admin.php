@@ -28,5 +28,7 @@ Route::get('/pensioners/search', [PensionersController::class, 'search'])->name(
 Route::resource('/accountstatus', AccountStatusController::class)->names('admin.accountstatus');
 Route::get('accountstatus', [AccountstatusController::class, 'filter'])->name('admin.accountstatus.index');
 Route::resource('/consumption', ConsumptionsController::class)->names('admin.consumptions');
+Route::get('/menus/filter', [MenusController::class, 'filterMenus'])->name('menus.filterMenus');
+Route::get('/menus/get-price/{menuId}', [MenusController::class, 'getMenuPrice'])->name('menus.getMenuPrice');
 
 ?>
