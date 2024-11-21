@@ -13,6 +13,16 @@ class Consumption extends Model
     protected $casts = [
         'date' => 'date:Y-m-d',
     ];
-    protected $guarded=[];
-}
+    protected $guarded = [];
 
+
+    public function details()
+    {
+        return $this->hasMany(ConsumptionDetail::class, 'consumption_id');
+    }
+
+    public function pensioner()
+    {
+        return $this->belongsTo(Pensioner::class, 'pensioner_id');
+    }
+}

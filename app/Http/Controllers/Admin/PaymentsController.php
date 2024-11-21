@@ -91,7 +91,7 @@ class PaymentsController extends Controller
             [
                 'current_balance' => 0, // Saldo inicial
                 'payment_id' => $payment->id, // Relacionar con el pago recién creado
-                'status' => 'todos', // Estado inicial
+                'status' => 'suficiente', // Estado inicial
             ]
         );
 

@@ -23,18 +23,67 @@
                         <th>TOTAL S/.</th>
                         <th width=20></th>
                         <th width=20></th>
+
                     </tr>
 
                 </thead>
                 <tbody>
+
                     @foreach ($consumptions as $cons)
                         <tr>
                             <td>{{ $cons->id }}</td>
                             <td>{{ $cons->names }}</td>
                             <td>{{ $cons->formatted_date }}</td>
-                            <td>{{ $cons->desayuno }}</td>
-                            <td>{{ $cons->almuerzo }}</td>
-                            <td>{{ $cons->cena }}</td>
+
+                            <td>
+                                @if ($cons->desayuno === 'Sí')
+                                    <a href="#" class="text-primary" 
+                                       data-bs-toggle="tooltip" 
+                                       data-bs-html="true" 
+                                       title="
+                                            <strong>Menú:</strong> {{ $cons->desayuno_details->menu_name ?? 'No disponible' }}<br>
+                                            <strong>Precio:</strong> S/. {{ $cons->desayuno_details->price ?? 0 }}<br>
+                                            <strong>Adicional:</strong> {{ $cons->desayuno_details->adicional ?? 'N/A' }}<br>
+                                            <strong>Costo adicional:</strong> S/. {{ $cons->desayuno_details->aditional_cost ?? 0 }}<br>
+                                            <strong>Total:</strong> S/. {{ $cons->desayuno_details->total ?? 0 }}
+                                       ">
+                                        Sí
+                                    </a>
+                                @else
+                                    No
+                                @endif
+                            </td>
+                            
+                            <td>
+                                @if ($cons->almuerzo === 'Sí')
+                                    <a href="#" class="text-primary" data-bs-toggle="tooltip" data-bs-html="true"
+                                        title="<strong>Menú:</strong> {{ $cons->almuerzo_details->menu_name ?? 'No disponible' }}<br>
+                                              <strong>Precio:</strong> S/. {{ $cons->almuerzo_details->price ?? 0 }}<br>
+                                              <strong>Adicional:</strong> {{ $cons->almuerzo_details->adicional ?? 'N/A' }}<br>
+                                              <strong>Costo adicional:</strong> S/. {{ $cons->almuerzo_details->aditional_cost ?? 0 }}<br>
+                                              <strong>Total:</strong> S/. {{ $cons->almuerzo_details->total ?? 0 }}">
+                                        Sí
+                                    </a>
+                                @else
+                                    No
+                                @endif
+                            </td>
+
+                            <td>
+                                @if ($cons->cena === 'Sí')
+                                    <a href="#" class="text-primary" data-bs-toggle="tooltip" data-bs-html="true"
+                                        title="<strong>Menú:</strong> {{ $cons->cena_details->menu_name ?? 'No disponible' }}<br>
+                                              <strong>Precio:</strong> S/. {{ $cons->cena_details->price ?? 0 }}<br>
+                                              <strong>Adicional:</strong> {{ $cons->cena_details->adicional ?? 'N/A' }}<br>
+                                              <strong>Costo adicional:</strong> S/. {{ $cons->cena_details->aditional_cost ?? 0 }}<br>
+                                              <strong>Total:</strong> S/. {{ $cons->cena_details->total ?? 0 }}">
+                                        Sí
+                                    </a>
+                                @else
+                                    No
+                                @endif
+                            </td>
+
                             <td>{{ $cons->total }}</td>
                             <td>
                                 <button class="btnEditar btn btn-primary" id="{{ $cons->id }}"><i
@@ -61,7 +110,6 @@
 
         </div>
     </div>
-
 
     <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -116,22 +164,27 @@
         });
 
         $(".fmrEliminar").submit(function(e) {
-                e.preventDefault();
-                    Swal.fire({
-                    title: "Seguro de eliminar?",
-                    text: "Esta accion es irreversible!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar!"
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                    });
+            e.preventDefault();
+            Swal.fire({
+                title: "Seguro de eliminar?",
+                text: "Esta accion es irreversible!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, eliminar!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
         });
-        
+         // Inicializar tooltips con soporte para HTML
+         $(document).ready(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip({
+                html: true // Permitir contenido HTML en los tooltips
+            });
+        });
     </script>
 
 
@@ -154,5 +207,36 @@
             });
         </script>
     @endif
-
 @stop
+@section('css')
+    <style>
+        /* Tooltip personalizado */
+        .tooltip-inner {
+            max-width: 300px; /* Ajusta el ancho máximo del tooltip */
+            background-color: #4c4c4c; /* Fondo blanco */
+            color: #f7efef; /* Texto negro */
+            border: 1px solid #353535; /* Borde gris claro */
+            padding: 10px; /* Espaciado interno */
+            font-size: 14px; /* Tamaño de fuente */
+            text-align: left; /* Alineación del texto */
+            border-radius: 5px; /* Esquinas redondeadas */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+        }
+
+        .tooltip-arrow {
+            color: #ffffff; /* Color de la flecha, debe coincidir con el fondo */
+            border: 1px solid #cccccc; /* Borde de la flecha */
+        }
+
+        a[data-bs-toggle="tooltip"] {
+            text-decoration: underline; /* Subrayado para enlaces con tooltip */
+            cursor: pointer;
+            color: #007bff; /* Azul estándar de Bootstrap */
+        }
+
+        a[data-bs-toggle="tooltip"]:hover {
+            color: #0056b3; /* Azul más oscuro al pasar el mouse */
+        }
+    </style>
+@stop
+
