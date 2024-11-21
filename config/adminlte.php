@@ -321,7 +321,7 @@ return [
         ],
         [
             'text' => 'Consumo diario',
-            'route' => 'admin.index',
+            'route' => 'admin.consumptions.index',
             'icon' => 'fas fa-utensils',
         ],
         [

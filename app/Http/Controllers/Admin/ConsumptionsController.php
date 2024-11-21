@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accountstatu;
+use App\Models\Accountstatus;
 use App\Models\Consumption;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ConsumptionsController extends Controller
 {
@@ -14,7 +16,45 @@ class ConsumptionsController extends Controller
      */
     public function index()
     {
-        //
+        $consumptions = Consumption::select(
+            'consumptions.id',
+            DB::raw("CONCAT(pen.name, ' ', pen.lastname) as names"), 
+            DB::raw("DATE_FORMAT(consumptions.date,'%Y-%m-%d') as formatted_date"),
+            DB::raw("CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM consumptiondetails cd
+                    INNER JOIN menus m ON cd.menu_id = m.id
+                    INNER JOIN typefoods tf ON m.typefood_id = tf.id
+                    WHERE cd.consumption_id = consumptions.id AND tf.name = 'desayuno'
+                ) THEN 'Sí' 
+                ELSE 'No' 
+            END as desayuno"), // Verifica si tiene desayuno
+            DB::raw("CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM consumptiondetails cd
+                    INNER JOIN menus m ON cd.menu_id = m.id
+                    INNER JOIN typefoods tf ON m.typefood_id = tf.id
+                    WHERE cd.consumption_id = consumptions.id AND tf.name = 'almuerzo'
+                ) THEN 'Sí' 
+                ELSE 'No' 
+            END as almuerzo"), // Verifica si tiene almuerzo
+            DB::raw("CASE 
+                WHEN EXISTS (
+                    SELECT 1 
+                    FROM consumptiondetails cd
+                    INNER JOIN menus m ON cd.menu_id = m.id
+                    INNER JOIN typefoods tf ON m.typefood_id = tf.id
+                    WHERE cd.consumption_id = consumptions.id AND tf.name = 'cena'
+                ) THEN 'Sí' 
+                ELSE 'No' 
+            END as cena") // Verifica si tiene cena
+        )
+        ->join('pensioners as pen', 'consumptions.pensioner_id', '=', 'pen.id') // Une con la tabla pensioners
+        ->get();
+    
+        return view('admin.consumptions.index', compact('consumptions'));
     }
 
     /**
@@ -45,7 +85,7 @@ class ConsumptionsController extends Controller
     ]);
 
     // Reducir el saldo en accountstatus
-    $accountStatus = Accountstatu::where('pensioner_id', $request->pensioner_id)->first();
+    $accountStatus = Accountstatus::where('pensioner_id', $request->pensioner_id)->first();
 
     if ($accountStatus) {
         $accountStatus->current_balance -= $request->total;

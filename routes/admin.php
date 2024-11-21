@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AccountStatusController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoriasController;
+use App\Http\Controllers\Admin\ConsumptionsController;
 use App\Http\Controllers\Admin\FotosController;
 use App\Http\Controllers\Admin\MenusController;
 use App\Http\Controllers\Admin\PaymentMethodsController;
@@ -26,5 +27,6 @@ Route::resource('/payment', PaymentsController::class)->names('admin.payments');
 Route::get('/pensioners/search', [PensionersController::class, 'search'])->name('pensioners.search');
 Route::resource('/accountstatus', AccountStatusController::class)->names('admin.accountstatus');
 Route::get('accountstatus', [AccountstatusController::class, 'filter'])->name('admin.accountstatus.index');
+Route::resource('/consumption', ConsumptionsController::class)->names('admin.consumptions');
 
 ?>
