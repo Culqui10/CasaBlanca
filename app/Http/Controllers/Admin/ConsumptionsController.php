@@ -54,9 +54,9 @@ class ConsumptionsController extends Controller
             END as cena"), // Verifica si tiene cena
             'consumptions.total'
         )
-            ->join('pensioners as pen', 'consumptions.pensioner_id', '=', 'pen.id') // Une con la tabla pensioners
+            ->join('pensioners as pen', 'consumptions.pensioner_id', '=', 'pen.id')
             ->get()
-            
+
             ->map(function ($consumption) {
                 // Carga detalles de menú para desayuno, almuerzo y cena
                 $consumption->desayuno_details = $this->getMenuDetails($consumption->id, 'desayuno');
@@ -173,17 +173,92 @@ class ConsumptionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+    public function edit($id)
+{
+    $consumption = Consumption::with('details.menu.typefood')->findOrFail($id);
+
+    // Cargar los datos de los detalles clasificados por tipo de comida
+    $details = ['desayuno' => [], 'almuerzo' => [], 'cena' => []]; // Valores predeterminados
+
+    foreach ($consumption->details as $detail) {
+        $typefood = strtolower($detail->menu->typefood->name);
+        $details[$typefood] = [
+            'menu_id' => $detail->menu_id,
+            'aditional' => $detail->aditional,
+            'aditional_cost' => $detail->aditional_cost,
+            'price' => $detail->menu->price,
+            'total' => $detail->menu->price + ($detail->aditional_cost ?? 0),
+        ];
     }
+
+    // Agrupar menús por tipo de comida y asegurarse de que las claves estén completas
+    $menus = Menu::with('typefood')->get()->groupBy(fn($menu) => strtolower($menu->typefood->name));
+
+    // Asegurar que las claves 'desayuno', 'almuerzo', y 'cena' existan en $menus
+    $menus = [
+        'desayuno' => $menus['desayuno'] ?? collect(),
+        'almuerzo' => $menus['almuerzo'] ?? collect(),
+        'cena' => $menus['cena'] ?? collect(),
+    ];
+
+    return view('admin.consumptions.edit', compact('consumption', 'details', 'menus'));
+}
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validar los datos
+        $request->validate([
+            'menu_id' => 'required|exists:menus,id',
+            'aditional' => 'nullable|string|max:255',
+            'aditional_cost' => 'nullable|numeric|min:0',
+        ]);
+
+        $consumption = Consumption::findOrFail($id);
+
+        // Obtener el detalle correspondiente
+        $detail = ConsumptionDetail::where('consumption_id', $consumption->id)
+            ->where('menu_id', $request->menu_id)
+            ->first();
+
+        if (!$detail) {
+            return back()->withErrors('No se encontró el detalle de consumo para actualizar.');
+        }
+
+        $menu = Menu::find($request->menu_id);
+
+        // Actualizar los detalles del consumo
+        $previousTotal = $detail->aditional_cost + $menu->price;
+
+        $detail->aditional = $request->aditional;
+        $detail->aditional_cost = $request->aditional_cost ?? 0;
+        $detail->save();
+
+        // Actualizar el total del consumo
+        $consumption->total = $consumption->total - $previousTotal + ($menu->price + ($request->aditional_cost ?? 0));
+        $consumption->save();
+
+        // Actualizar el estado de cuenta
+        $accountStatus = Accountstatus::where('pensioner_id', $consumption->pensioner_id)->first();
+        if ($accountStatus) {
+            $accountStatus->current_balance = $accountStatus->current_balance + $previousTotal - ($menu->price + ($request->aditional_cost ?? 0));
+
+            // Actualizar el estado según el saldo actual
+            if ($accountStatus->current_balance < 0) {
+                $accountStatus->status = 'pendiente';
+            } elseif ($accountStatus->current_balance <= 20) {
+                $accountStatus->status = 'agotándose';
+            } else {
+                $accountStatus->status = 'suficiente';
+            }
+
+            $accountStatus->save();
+        }
+
+        return redirect()->route('admin.consumptions.index')->with('success', 'Consumo actualizado correctamente.');
     }
 
     /**
@@ -191,6 +266,38 @@ class ConsumptionsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $consumption = Consumption::findOrFail($id);
+
+        // Eliminar los detalles del consumo
+        $details = ConsumptionDetail::where('consumption_id', $consumption->id)->get();
+        foreach ($details as $detail) {
+            // Revertir los totales en la tabla estado de cuenta
+            $menu = Menu::find($detail->menu_id);
+            $totalDetail = $menu->price + $detail->aditional_cost;
+
+            $accountStatus = Accountstatus::where('pensioner_id', $consumption->pensioner_id)->first();
+            if ($accountStatus) {
+                $accountStatus->current_balance += $totalDetail;
+
+                // Actualizar el estado según el saldo actual
+                if ($accountStatus->current_balance < 0) {
+                    $accountStatus->status = 'pendiente';
+                } elseif ($accountStatus->current_balance <= 20) {
+                    $accountStatus->status = 'agotándose';
+                } else {
+                    $accountStatus->status = 'suficiente';
+                }
+
+                $accountStatus->save();
+            }
+
+            // Eliminar el detalle
+            $detail->delete();
+        }
+
+        // Eliminar el consumo
+        $consumption->delete();
+
+        return redirect()->route('admin.consumptions.index')->with('success', 'Consumo eliminado correctamente.');
     }
 }

@@ -1,5 +1,3 @@
-
-
 {!! Form::model($payment, ['route' => ['admin.payments.update', $payment], 'method' => 'put']) !!}
 @include('admin.payments.forms.form')
 <button type="submit" class="btn btn-success"><i class="fas fa-save"> Actualizar</i></button>
