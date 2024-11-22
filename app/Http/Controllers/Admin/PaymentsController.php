@@ -205,7 +205,7 @@ class PaymentsController extends Controller
 
         $accountstatus = Accountstatus::where('payment_id', $id)->count();
         if ($accountstatus > 0) {
-            return redirect()->route('admin.payments.index')->with('error', 'Tiene estado de cuenta asociado');
+            return redirect()->route('admin.payments.index')->with('error', 'El pago solo puede ser editado');
         } else {
             $payment->delete();
             return redirect()->route('admin.payments.index')->with('success', 'Pago eliminado correctamente y saldo ajustado.');

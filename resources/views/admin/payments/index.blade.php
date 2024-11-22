@@ -21,8 +21,8 @@
                         <th>MONTO S/.</th>
                         <th>SALDO ACTUAL S/.</th>
                         <th>DESCRIPCION</th>
-                        <th width=20></th>
-                        <th width=20></th>
+                        <th width=20>EDITAR</th>
+                        
                     </tr>
 
                 </thead>
@@ -40,7 +40,7 @@
                                 <button class="btnEditar btn btn-primary" id="{{ $paym->id }}"><i
                                         class="fa fa-edit"></i></button>
                             </td>
-                            <td>
+                            {{-- <td>
                                 <form action="{{ route('admin.payments.destroy', $paym->id) }}" method="POST"
                                     class="fmrEliminar">
                                     @csrf
@@ -50,7 +50,7 @@
                                     </button>
                                 </form>
 
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

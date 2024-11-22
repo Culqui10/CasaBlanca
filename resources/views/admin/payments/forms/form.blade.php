@@ -40,9 +40,8 @@
     </div>
 </div>
 
-
 <div class="form-group row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         {!! Form::label('date', 'Fecha') !!}
         {!! Form::date('date', isset($payment) ? $payment->date->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d'), [
             'class' => 'form-control', 
@@ -50,16 +49,17 @@
             'required',
         ]) !!}
     </div>
+    <div class="col-md-8">
+        {!! Form::label('description', 'Descripción') !!}
+        {!! Form::textarea('description', $payment->description ?? null, [
+            'class' => 'form-control',
+            'rows' => 2,
+            'placeholder'=>'Ingrese la descripción',
+        ]) !!}
+    </div>
 </div>
 
-<div class="form-group">
-    {!! Form::label('description', 'Descripción') !!}
-    {!! Form::textarea('description', $payment->description ?? null, [
-        'class' => 'form-control',
-        'rows' => 2,
-        'placeholder'=>'Ingrese la descripción',
-    ]) !!}
-</div>
+
 
 <script>
     document.getElementById('btn-search').addEventListener('click', function() {
