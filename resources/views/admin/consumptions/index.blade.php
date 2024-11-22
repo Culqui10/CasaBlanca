@@ -181,6 +181,7 @@
                 html: true // Permitir contenido HTML en los tooltips
             });
         });
+        
     </script>
 
     @if (session('success') !== null)
