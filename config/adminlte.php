@@ -340,13 +340,8 @@ return [
             'icon' => 'fas fa-exclamation-triangle', 
         ],
         [
-            'text' => 'Historial de cuenta',
-            'route' => 'admin.index',
-            'icon' => 'fas fa-history', 
-        ],
-        [
             'text' => 'Generar cuenta',
-            'route' => 'admin.index',
+            'route' => 'admin.reports.index',
             'icon' => 'fas fa-file-pdf', 
         ],
         ['header' => 'REGISTROS ADICIONALES'],

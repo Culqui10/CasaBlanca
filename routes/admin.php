@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PaymentMethodsController;
 use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\PensionersController;
 use App\Http\Controllers\Admin\ProductosController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\TypeFoodsController;
 
 use Illuminate\Support\Facades\Route;
@@ -30,5 +31,7 @@ Route::get('accountstatus', [AccountstatusController::class, 'filter'])->name('a
 Route::resource('/consumption', ConsumptionsController::class)->names('admin.consumptions');
 Route::get('/menus/filter', [MenusController::class, 'filterMenus'])->name('menus.filterMenus');
 Route::get('/menus/get-price/{menuId}', [MenusController::class, 'getMenuPrice'])->name('menus.getMenuPrice');
+Route::get('/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
+Route::get('/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
 
 ?>
