@@ -16,10 +16,7 @@ use App\Http\Controllers\Admin\TypeFoodsController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Rules\Role;
 
-Route::resource('/categoria', CategoriasController::class)->names('admin.categorias');
-Route::resource('/producto', ProductosController::class)->names('admin.productos');
-Route::get('categoriabyfamilia/{id}', [CategoriasController::class, 'categoriabyfamilia'])->name('admin.categoriabyfamilia');
-Route::resource('foto', FotosController::class)->names('admin.foto');
+
 Route::resource('/paymentmethod',  PaymentMethodsController::class)->names('admin.paymentmethods');
 Route::resource('/typefood', TypeFoodsController::class)->names('admin.typefoods');
 Route::resource('/menu', MenusController::class)->names('admin.menus');

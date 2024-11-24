@@ -46,8 +46,6 @@ class PaymentsController extends Controller
         // Sumar el monto del pago al saldo acumulativo del pensionista
         $saldoPorPensionista[$payment->pensioner_id] += $payment->total;
 
-        // Asignar el saldo acumulado al registro actual
-        $payment->saldo_acumulado = $saldoPorPensionista[$payment->pensioner_id];
     }
 
     return view('admin.payments.index', compact('payments'));

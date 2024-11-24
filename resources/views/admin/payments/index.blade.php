@@ -19,10 +19,8 @@
                         <th>FECHA DE PAGO</th>
                         <th>MÉTODO DE PAGO</th>
                         <th>MONTO S/.</th>
-                        <th>SALDO ACTUAL S/.</th>
                         <th>DESCRIPCION</th>
                         <th width=20>EDITAR</th>
-                        
                     </tr>
 
                 </thead>
@@ -34,7 +32,7 @@
                             <td>{{ $paym->formatted_date }}</td>
                             <td>{{ $paym->mpaym}}</td>
                             <td>{{ $paym->total }}</td>
-                            <td>{{ $paym->saldo_acumulado }}</td>
+
                             <td>{{ $paym->description }}</td>
                             <td>
                                 <button class="btnEditar btn btn-primary" id="{{ $paym->id }}"><i
