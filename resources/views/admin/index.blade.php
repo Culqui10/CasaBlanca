@@ -6,6 +6,7 @@
     <h1>GESTIÓN DE PENSIONISTAS - CASA BLANCA</h1>
 @stop
 
+
 @section('content')
     <div class="row">
         <!-- Estadísticas principales -->
