@@ -33,5 +33,8 @@ Route::get('/menus/filter', [MenusController::class, 'filterMenus'])->name('menu
 Route::get('/menus/get-price/{menuId}', [MenusController::class, 'getMenuPrice'])->name('menus.getMenuPrice');
 Route::get('/reports', [ReportsController::class, 'index'])->name('admin.reports.index');
 Route::get('/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
+Route::get('/admin/graficos/pensioners', [AdminController::class, 'getPensionersByAnio'])->name('admin.graficos.pensioners');
+Route::get('/admin/graficos/menus', [AdminController::class, 'getMenusByTipoComida'])->name('admin.graficos.menus');
+
 
 ?>
