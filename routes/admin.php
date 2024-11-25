@@ -32,6 +32,7 @@ Route::get('/reports', [ReportsController::class, 'index'])->name('admin.reports
 Route::get('/reports/generate', [ReportsController::class, 'generate'])->name('admin.reports.generate');
 Route::get('/admin/graficos/pensioners', [AdminController::class, 'getPensionersByAnio'])->name('admin.graficos.pensioners');
 Route::get('/admin/graficos/menus', [AdminController::class, 'getMenusByTipoComida'])->name('admin.graficos.menus');
+Route::resource('/paymentmethod',  PaymentMethodsController::class)->names('admin.paymentmethods');
 
 
 ?>
