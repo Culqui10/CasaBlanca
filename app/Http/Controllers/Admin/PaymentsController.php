@@ -63,50 +63,50 @@ class PaymentsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // Validar los datos de entrada
-    $request->validate([
-        'pensioner_id' => 'required|exists:pensioners,id',
-        'paymentmethod_id' => 'required|exists:paymentmethods,id',
-        'price' => 'required|numeric|min:0',
-        'date' => 'required|date',
-        'description' => 'nullable|string|max:255',
-    ]);
+    {
+        // Validar los datos de entrada
+        $request->validate([
+            'pensioner_id' => 'required|exists:pensioners,id',
+            'paymentmethod_id' => 'required|exists:paymentmethods,id',
+            'price' => 'required|numeric|min:0',
+            'date' => 'required|date',
+            'description' => 'nullable|string|max:255',
+        ]);
 
-    // Crear el pago
-    $payment = Payment::create([
-        'pensioner_id' => $request->pensioner_id,
-        'paymentmethod_id' => $request->paymentmethod_id,
-        'total' => $request->price,
-        'date' => $request->date,
-        'description' => $request->description,
-    ]);
+        // Crear el pago
+        $payment = Payment::create([
+            'pensioner_id' => $request->pensioner_id,
+            'paymentmethod_id' => $request->paymentmethod_id,
+            'total' => $request->price,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
 
-    // Crear o actualizar el estado de cuenta del pensionista
-    $accountStatus = Accountstatus::firstOrCreate(
-        ['pensioner_id' => $request->pensioner_id],
-        [
-            'current_balance' => 0, // Inicialmente en 0
-            'status' => 'pendiente',
-        ]
-    );
+        // Crear o actualizar el estado de cuenta del pensionista
+        $accountStatus = Accountstatus::firstOrCreate(
+            ['pensioner_id' => $request->pensioner_id],
+            [
+                'current_balance' => 0, // Inicialmente en 0
+                'status' => 'pendiente',
+            ]
+        );
 
-    // Sumar el pago al saldo actual
-    $accountStatus->current_balance += $request->price;
+        // Sumar el pago al saldo actual
+        $accountStatus->current_balance += $request->price;
 
-    // Calcular el estado basado en el nuevo saldo
-    if ($accountStatus->current_balance < 0) {
-        $accountStatus->status = 'pendiente';
-    } elseif ($accountStatus->current_balance <= 20) {
-        $accountStatus->status = 'agotándose';
-    } else {
-        $accountStatus->status = 'suficiente';
+        // Calcular el estado basado en el nuevo saldo
+        if ($accountStatus->current_balance < 0) {
+            $accountStatus->status = 'pendiente';
+        } elseif ($accountStatus->current_balance <= 20) {
+            $accountStatus->status = 'agotándose';
+        } else {
+            $accountStatus->status = 'suficiente';
+        }
+
+        $accountStatus->save();
+
+        return redirect()->route('admin.payments.index')->with('success', 'Pago registrado correctamente.');
     }
-
-    $accountStatus->save();
-
-    return redirect()->route('admin.payments.index')->with('success', 'Pago registrado correctamente.');
-}
 
 
     /**

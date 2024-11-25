@@ -99,77 +99,77 @@ class ConsumptionsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // Validar los datos de entrada
-    $request->validate([
-        'pensioner_id' => 'required|exists:pensioners,id',
-        'menu_id' => 'required|exists:menus,id',
-        'date' => 'required|date',
-        'aditional_cost' => 'nullable|numeric|min:0',
-        'aditional' => 'nullable|string|max:255',
-    ]);
+    {
+        // Validar los datos de entrada
+        $request->validate([
+            'pensioner_id' => 'required|exists:pensioners,id',
+            'menu_id' => 'required|exists:menus,id',
+            'date' => 'required|date',
+            'aditional_cost' => 'nullable|numeric|min:0',
+            'aditional' => 'nullable|string|max:255',
+        ]);
 
-    // Verificar si ya existe un detalle con el mismo tipo de comida en el día
-    $existingDetail = ConsumptionDetail::whereHas('consumption', function ($query) use ($request) {
-        $query->where('pensioner_id', $request->pensioner_id)
-            ->where('date', $request->date);
-    })->whereHas('menu', function ($query) use ($request) {
-        $query->where('typefood_id', Menu::find($request->menu_id)->typefood_id);
-    })->first();
+        // Verificar si ya existe un detalle con el mismo tipo de comida en el día
+        $existingDetail = ConsumptionDetail::whereHas('consumption', function ($query) use ($request) {
+            $query->where('pensioner_id', $request->pensioner_id)
+                ->where('date', $request->date);
+        })->whereHas('menu', function ($query) use ($request) {
+            $query->where('typefood_id', Menu::find($request->menu_id)->typefood_id);
+        })->first();
 
-    if ($existingDetail) {
-        return redirect()->route('admin.consumptions.index')->with('error', 'Ya existe un registro del tipo de comida para este día.');
+        if ($existingDetail) {
+            return redirect()->route('admin.consumptions.index')->with('error', 'Ya existe un registro del tipo de comida para este día.');
+        }
+
+        // Buscar o crear un consumo para el pensionista y la fecha
+        $consumption = Consumption::firstOrCreate(
+            [
+                'pensioner_id' => $request->pensioner_id,
+                'date' => $request->date,
+            ],
+            [
+                'total' => 0, // Inicialmente en 0
+            ]
+        );
+
+        // Agregar el detalle del consumo
+        $menu = Menu::findOrFail($request->menu_id);
+
+        ConsumptionDetail::create([
+            'consumption_id' => $consumption->id,
+            'menu_id' => $menu->id,
+            'aditional' => $request->aditional,
+            'aditional_cost' => $request->aditional_cost ?? 0,
+        ]);
+
+        // Actualizar el total del consumo
+        $consumption->total += $menu->price + ($request->aditional_cost ?? 0);
+        $consumption->save();
+
+        // Actualizar el estado de cuenta del pensionista
+        $accountStatus = Accountstatus::firstOrCreate(
+            ['pensioner_id' => $request->pensioner_id],
+            [
+                'current_balance' => 0,
+                'status' => 'pendiente',
+            ]
+        );
+
+        $accountStatus->current_balance -= $menu->price + ($request->aditional_cost ?? 0);
+
+        // Actualizar el estado basado en el saldo actual
+        if ($accountStatus->current_balance < 0) {
+            $accountStatus->status = 'pendiente';
+        } elseif ($accountStatus->current_balance <= 20) {
+            $accountStatus->status = 'agotándose';
+        } else {
+            $accountStatus->status = 'suficiente';
+        }
+
+        $accountStatus->save();
+
+        return redirect()->route('admin.consumptions.index')->with('success', 'Consumo registrado correctamente.');
     }
-
-    // Buscar o crear un consumo para el pensionista y la fecha
-    $consumption = Consumption::firstOrCreate(
-        [
-            'pensioner_id' => $request->pensioner_id,
-            'date' => $request->date,
-        ],
-        [
-            'total' => 0, // Inicialmente en 0
-        ]
-    );
-
-    // Agregar el detalle del consumo
-    $menu = Menu::findOrFail($request->menu_id);
-
-    ConsumptionDetail::create([
-        'consumption_id' => $consumption->id,
-        'menu_id' => $menu->id,
-        'aditional' => $request->aditional,
-        'aditional_cost' => $request->aditional_cost ?? 0,
-    ]);
-
-    // Actualizar el total del consumo
-    $consumption->total += $menu->price + ($request->aditional_cost ?? 0);
-    $consumption->save();
-
-    // Actualizar el estado de cuenta del pensionista
-    $accountStatus = Accountstatus::firstOrCreate(
-        ['pensioner_id' => $request->pensioner_id],
-        [
-            'current_balance' => 0,
-            'status' => 'pendiente',
-        ]
-    );
-
-    $accountStatus->current_balance -= $menu->price + ($request->aditional_cost ?? 0);
-
-    // Actualizar el estado basado en el saldo actual
-    if ($accountStatus->current_balance < 0) {
-        $accountStatus->status = 'pendiente';
-    } elseif ($accountStatus->current_balance <= 20) {
-        $accountStatus->status = 'agotándose';
-    } else {
-        $accountStatus->status = 'suficiente';
-    }
-
-    $accountStatus->save();
-
-    return redirect()->route('admin.consumptions.index')->with('success', 'Consumo registrado correctamente.');
-}
 
 
     /**

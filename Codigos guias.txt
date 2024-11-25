@@ -74,3 +74,21 @@ git pull origin main --rebase
 git pull origin main
 
 git rebase --continue
+
+
+
+CUANDO CLONAS EL REPOSITORIO:
+git clone https://github.com/usuario/proyecto.git
+cd proyecto
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+npm install
+npm run dev
+php artisan serve
+php artisan optimize:clear
+
+
+ERROR CON DOM DE PDF
+composer require barryvdh/laravel-dompdf
