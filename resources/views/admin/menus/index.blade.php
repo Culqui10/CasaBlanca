@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Metodo Pago')
+@section('title', 'Menú')
 
 
 @section('content')

@@ -6,8 +6,12 @@
 <body>
     <h1>Reporte de Consumos - {{ $pensioner->name }} {{ $pensioner->lastname }}</h1>
     <p>Mes: {{ \Carbon\Carbon::parse($month)->format('F Y') }}</p>
-    <p>Saldo Actual: S/. {{ number_format($pensioner->accountStatus->current_balance, 2) }}</p>
-    <p>Estado: {{ ucfirst($pensioner->accountStatus->status) }}</p>
+    <p>Saldo Actual: S/. 
+        {{ $pensioner->accountStatus ? number_format($pensioner->accountStatus->current_balance, 2) : 'No consume/pago' }}
+    </p>
+    <p>Estado: 
+        {{ $pensioner->accountStatus ? ucfirst($pensioner->accountStatus->status) : 'Sin consumo' }}
+    </p>
 
     <table border="1" style="width: 100%; border-collapse: collapse;">
         <thead>

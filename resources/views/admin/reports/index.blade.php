@@ -24,19 +24,32 @@
                         <tr>
                             <td>{{ $pensioner->id }}</td>
                             <td>{{ $pensioner->name }} {{ $pensioner->lastname }}</td>
-                            <td>{{ number_format($pensioner->accountStatus->current_balance, 2) }}</td>
-                            <td>{{ ucfirst($pensioner->accountStatus->status) }}</td>
+                            <td>
+                                @if ($pensioner->accountStatus)
+                                    {{ number_format($pensioner->accountStatus->current_balance, 2) }}
+                                @else
+                                    No consume/pago
+                                @endif
+                            </td>
+                            <td>
+                                @if ($pensioner->accountStatus)
+                                    {{ ucfirst($pensioner->accountStatus->status) }}
+                                @else
+                                    Sin consumo
+                                @endif
+                            </td>
                             <td>
                                 <button class="btn btn-primary btn-sm generate-report" data-id="{{ $pensioner->id }}"
                                     data-name="{{ $pensioner->name }} {{ $pensioner->lastname }}"
-                                    data-balance="{{ $pensioner->accountStatus->current_balance }}"
-                                    data-status="{{ ucfirst($pensioner->accountStatus->status) }}">
+                                    data-balance="{{ $pensioner->accountStatus->current_balance ?? 0 }}"
+                                    data-status="{{ $pensioner->accountStatus->status ?? 'Sin consumo' }}">
                                     <i class="fas fa-file-pdf"></i> Generar PDF
                                 </button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
+                
             </table>
         </div>
         <div class="card-footer">
