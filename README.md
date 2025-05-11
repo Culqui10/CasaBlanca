@@ -1,3 +1,10 @@
+## SISTEMA DE GESTION DE PENSIONISTA
+
+Sistema web diseñado para la gestion de pensionistas en un restaurante. Registros de menus diarios, platos (desayuno, almuerzo y cena), precio de cada menu. 
+Registro de los pensionistas asi como de sus pagos por diversos metodos de pagos, registros de los consumos diarios y seguimientos de estos mismos.
+Además, el seguimiento de estado de cuenta actual de cada pensionista, generando reportes en PDF sobre su consumo mensual.
+Desarrollado en LARAVEL 10:
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
